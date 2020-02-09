@@ -21,12 +21,12 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage }).single("file");
 
-app.post("/uploadfile", (req, res, next) => {
-  upload(req, res, function (err) {
+app.post("/uploadfile", (req, res) => {
+  upload(req, res, function(err) {
     if (err instanceof multer.MulterError) {
-        return res.status(500).json(err)
+      return res.status(500).json(err);
     } else if (err) {
-        return res.status(500).json(err)
+      return res.status(500).json(err);
     }
     fs.readFile(req.file.path, { encoding: "utf-8" }, function(err, data) {
       if (!err) {
@@ -36,8 +36,7 @@ app.post("/uploadfile", (req, res, next) => {
         console.log(err);
       }
     });
-})
-
+  });
 });
 
 app.listen(3001, () =>
